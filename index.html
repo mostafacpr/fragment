@@ -43,7 +43,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" id="checkConf">بررسی</button>
                     </span>
-                    <input class="form-control dirLeft" placeholder="Your Config" value="vless://bca6c7f8-2505-416e-a9f7-420cd2994683@104.16.31.56:443?hiddify=1&sni=p2.ipcl.top&type=ws&alpn=http/1.1&path=/NcnELaMKKFprtS7GqudEw78d&host=p2.ipcl.top&encryption=none&fp=chrome&headerType=None&security=tls#Fra%20Fix" id="defConfig" />
+                    <input class="form-control dirLeft" placeholder="Your Config" value="vless://bca6c7f8-2505-416e-a9f7-420cd2994683@zula.ir:443?hiddify=1&sni=p2.ipcl.top&type=ws&alpn=http/1.1&path=/NcnELaMKKFprtS7GqudEw78d&host=p2.ipcl.top&encryption=none&fp=chrome&headerType=None&security=tls#Fra%20Fix" id="defConfig" />
                 </div>
                 <div class="orClass"><small>یا</small></div>
                 <p>یا تنظیمات زیر رو به‌صورت دستی تکمیل کنین:</p>
@@ -159,3 +159,166 @@
     </body>
 </html>
 
+........................................................................
+
+<!DOCTYPE html>
+<html lang="fa">
+    <head>
+        <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="./assets/css/bootstrap-rtl.min.css" rel="stylesheet" />
+        <link href="./assets/css/vazir.css" rel="stylesheet" />
+        <link href="./assets/css/style.css?v1.6" rel="stylesheet" />
+        <title> ابزار فرگمنت</title>
+               <meta name="robots" content="index,follow,noodp" />
+        <meta name="googlebot" content="index,follow" />
+        <meta name="theme-color" content="#ff7900" />
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        <meta charset="UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/x-icon" href="./assets/favicon.ico?v1.1" />
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 col-centered">
+                    <a href=".">
+                        <img src="./assets/img/cflogo.png?v1.1" alt="logo" />
+                        <h1>تبدیل کانفیگ!</h1>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="clearfix"></div>
+        <div class="container">
+            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 col-centered">
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="https://fix7.shop">معرفی</a>
+                    </li>
+                                                          
+                </ul>
+                <div class="clearfix"></div>
+                
+                <p>یک کانفیگ VLESS/VMESS از نوع webSocket وارد کنین:</p>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" id="checkConf">بررسی</button>
+                    </span>
+                    <input class="form-control dirLeft" placeholder="Your Config" value="vless://bca6c7f8-2505-416e-a9f7-420cd2994683@zula.ir:443?hiddify=1&sni=p2.ipcl.top&type=ws&alpn=http/1.1&path=/NcnELaMKKFprtS7GqudEw78d&host=p2.ipcl.top&encryption=none&fp=chrome&headerType=None&security=tls#Fra%20Fix" id="defConfig" />
+                </div>
+                <div class="orClass"><small>یا</small></div>
+                <p>یا تنظیمات زیر رو به‌صورت دستی تکمیل کنین:</p>
+                <div class="xsWidth withSmallCenter">
+                    <select class="form-control dirLeft" id="protocol">
+                        <option value="vless">VLESS (WS)</option>
+                        <option value="vmess">VMESS (WS)</option>
+                    </select>
+                    <input class="form-control dirLeft" placeholder="UUID" id="uuid" />
+                    <input class="form-control dirLeft" placeholder="PORT" id="port" type="number" min="0" />
+                </div>
+                <div class="xsWidth">
+                    <input class="form-control dirLeft" placeholder="CleanIP (default: zula.ir)" id="cleanIp" />
+                    <input class="form-control dirLeft" placeholder="SNI" id="sni" />
+                    <input class="form-control dirLeft" placeholder="PATH" id="path" />
+                </div>
+                <div class="clearfix"></div>
+                <label class="switch">
+                    <input type="checkbox" id="tls" checked />
+                    <span class="slider round"></span>
+                    <strong>TLS</strong>
+                </label>
+                <label class="switch">
+                    <input type="checkbox" id="early" />
+                    <span class="slider round"></span>
+                    <strong>Early Data</strong>
+                </label>
+                <label class="switch">
+                    <input type="checkbox" id="mux" />
+                    <span class="slider round"></span>
+                    <strong>Mux</strong>
+                </label>
+                <div class="orClass"><small>مقادیر فرگمنت</small></div>
+                <div class="xsWidth">
+                    <input class="form-control dirLeft" placeholder="Packets" id="packets" value="tlshello" />
+                    <input class="form-control dirLeft" placeholder="Length" id="length" value="10-20" />
+                    <input class="form-control dirLeft" placeholder="Interval" id="interval" value="10-20" />
+                </div>
+                <div class="muxForm none" id="muxForm">
+                    <div class="orClass"><small>مقدار Concurrency</small></div>
+                    <input class="form-control dirLeft" placeholder="Concurrency" id="concurrency" value="8" />
+                </div>
+                <div class="input-group fetchIps">
+                    <button class="btn btn-info" type="submit" id="getFile">
+                        ایجاد فایل JSON
+                    </button>
+                    <button class="btn btn-default active" id="copyCode">
+                        کپی کد
+                    </button>
+                </div>
+                <div class="clearfix"></div>
+                <div id="tableResults" class="hidden">
+                    <div class="clearfix"></div>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>آی‌پی</th>
+                                <th>عملیات</th>
+                            </tr>
+                            </thead>
+                            <tbody id="result"></tbody>
+                        </table>
+                    </div>
+                    <div id="list">
+                        <div class="clearfix"></div>
+                        <hr>
+                        <textarea class="form-control dirLeft"></textarea>
+                    </div>
+                </div>
+                <br>
+                <div id="donate" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">دونیت</h4>
+                            </div>
+                            <div class="modal-body modalBodyOverflow">
+                                <p>درصورت تمایل برای دونیت می‌تونین از یکی‌از روش‌های زیر استفاده کنین:</p>
+                                <div class="dirLeft">
+                                    
+                                    
+                                    <small>Tron (TRX):</small>
+                                    <br>
+                                    <input type="text" class="form-control text-center" value="TKpFB8JGsFgQQL6kMVX7UWedMnXCwcKhLH" />
+                                                                      
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">حله</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer>
+                    <p class="text-center">
+                        © توسط
+                        <a href="https://github.com/mostafacpr/fragment" target="_blank">FixGsm</a>
+                        با کمک
+                        IRCF
+                    </p>
+                    <!--<div class="text-center">
+                        <a href="#" class="btn btn-link btn-normal btn-lg btn-outline donateLink" data-toggle="modal" data-target="#donate">☕</a>
+                    </div>-->
+                    <script src="./assets/js/jquery.min.js"></script>
+                    <script src="./assets/js/bootstrap.min.js"></script>
+                    <script src="./assets/js/script.js?v1.6"></script>
+                </footer>
+            </div>
+        </div>
+    </body>
+</html>
+........................................................................
