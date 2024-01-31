@@ -3,5 +3,5 @@
 
 توسط ابزار فرگمنت می‌تونین دامنه‌های مرده‌تون رو مجدد زنده کنید!
 
-https://ircf.space \
-https://ircfspace.github.io/fragment
+https://f.fix7.shop
+https://mostafacpr.github.io/fragment
