@@ -47,12 +47,12 @@
   "outbounds": [
     {
       "tag": "proxy",
-      "protocol": "###PROTOCOL###",
+      "protocol": "vless",
       "settings": {
         "vnext": [
           {
             "address": "###CLEANIP###",
-            "port": "###PORT###",
+            "port": "443",
             "users": [
               {
                 "id": "###UUID###",
@@ -67,11 +67,11 @@
         ]
       },
       "streamSettings": {
-        "network": "###NETWORK###",
+        "network": "ws",
         "security": "tls",
         "tlsSettings": {
           "allowInsecure": true,
-          "serverName": "###SNI###",
+          "serverName": "p2.IPcL.tOP",
           "alpn": [
             "h2",
             "http/1.1"
@@ -80,9 +80,9 @@
           "show": false
         },
         "wsSettings": {
-          "path": "###PATH###/?ed=2048",
+          "path": "/NcnELaMKKFprtS7GqudEw78d/?ed=2048",
           "headers": {
-            "Host": "###SNI###"
+            "Host": "p2.IPcL.tOP"
           }
         },
         "sockopt": {
