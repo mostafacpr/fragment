@@ -131,18 +131,21 @@ $(document).on('keyup', '#defConfig', function(e) {
         return false;
     }
     $('#protocol option').removeAttr('selected');
-    $('#protocol option[value="'+protocol+'"]').attr('selected', 'selected');
+    $('#protocol option[value="'+protocol+'"]').attr('selected', 'selected').prop('selected', true);
     let defConfig = parser(protocol, config);
-    if ( protocol === 'vmess' && ["grpc", "reality", "tcp", "quic"].includes(defConfig.tls) ) {
-        alert('نوع کانفیگ باید وب‌سوکت باشد!');
+    //console.log(defConfig)
+    if ( protocol === 'vmess' && ["reality", "tcp"].includes(defConfig.tls) ) {
+        alert('نوع کانفیگ باید WS/GRPC باشد!');
         resetForm();
         return false;
     }
-    if ( protocol === 'vless' && ["grpc", "reality", "tcp", "quic"].includes(defConfig.security) ) {
-        alert('نوع کانفیگ باید وب‌سوکت باشد!');
+    if ( protocol === 'vless' && ["reality", "tcp"].includes(defConfig.security) ) {
+        alert('نوع کانفیگ باید WS/GRPC باشد!');
         resetForm();
         return false;
     }
+    $('#stream option').removeAttr('selected');
+    $('#stream option[value="'+ (defConfig.type === 'ws' ? 'ws' : 'grpc') +'"]').attr('selected', 'selected').prop('selected', true).trigger('change');
     let port = String(getAddress(config)[1]).replace('/', '');
     $('#port').val(port);
     $('#sni').val(defConfig.host);
@@ -158,18 +161,65 @@ $(document).on('keyup', '#defConfig', function(e) {
     else {
         $('#tls').prop('checked', false);
         $('#packets').val('1-1');
-        $('#length').val('3-5');
+        $('#length').val('1-3');
         $('#interval').val('5');
     }
     if ( protocol === 'vmess' ) {
         $('#cleanIp').val(defConfig.add);
+        $('#grpcMode option').removeAttr('selected');
+        $('#grpcMode option[value="'+ (defConfig.type
+        === 'multi' ? 'multi' : 'gun') +'"]').attr('selected', 'selected').prop('selected', true);
+        $('#serviceName').val(defConfig.path);
     }
     else {
         $('#cleanIp').val(defConfig.address);
+        $('#grpcMode option').removeAttr('selected');
+        $('#grpcMode option[value="'+ (defConfig.mode === 'multi' ? 'multi' : 'gun') +'"]').attr('selected', 'selected').prop('selected', true);
+        $('#serviceName').val(defConfig.serviceName);
     }
-    let path = setPath(defConfig.path);
+    if ( typeof defConfig.allowInsecure !== "undefined" ) {
+        if ( protocol === 'vmess' ) {
+            if ( defConfig.allowInsecure ) {
+                $('#insecure').prop('checked', true);
+            }
+            else {
+                $('#insecure').prop('checked', false);
+            }
+        }
+        else {
+            if ( defConfig.allowInsecure === "1" ) {
+                $('#insecure').prop('checked', true);
+            }
+            else {
+                $('#insecure').prop('checked', false);
+            }
+        }
+    }
+    else {
+        if ( protocol === 'vmess' ) {
+            if ( defConfig.tls !== "tls" ) {
+                $('#insecure').prop('checked', true);
+            }
+            else {
+                $('#insecure').prop('checked', false);
+            }
+        }
+        else {
+            if ( defConfig.security !== "tls" ) {
+                $('#insecure').prop('checked', true);
+            }
+            else {
+                $('#insecure').prop('checked', false);
+            }
+        }
+    }
+    let stream = $('#stream').val();
+    if ( stream !== 'ws' ) {
+        $('#early').prop('checked', false);
+    }
+    let path = setPath(defConfig.type === 'ws' ? defConfig.path : "");
     let early = $('#early').is(':checked');
-    if ( early ) {
+    if ( early && stream === 'ws' ) {
         path = path+'?ed=2048';
     }
     $('#uuid').val(getHashId(defConfig.id));
@@ -193,10 +243,25 @@ function setPath(string) {
     return string;
 }
 
+$(document).on('change', '#stream', function(e) {
+    let stream = $('#stream').val();
+    if ( stream !== 'ws' ) {
+        $('#grpcOnly').removeClass('none');
+        $('#path').prop('disabled', true).val('');
+        $('#early').prop('disabled', true);
+    }
+    else {
+        $('#grpcOnly').addClass('none');
+        $('#path').prop('disabled', false).val('');;
+        $('#early').prop('disabled', false);
+    }
+});
+
 $(document).on('click', '#early', function(e) {
     let early = $('#early').is(':checked');
     let path = setPath($('#path').val());
-    if ( early ) {
+    let stream = $('#stream').val();
+    if ( early && stream === 'ws' ) {
         path = path+'?ed=2048';
     }
     $('#path').val(path);
@@ -212,7 +277,7 @@ $(document).on('click', '#tls', function(e) {
     }
     else {
         $('#packets').val('1-1');
-        $('#length').val('3-5');
+        $('#length').val('1-3');
         $('#interval').val('5');
         $('#sni').attr('placeholder', 'Host');
     }
@@ -249,42 +314,56 @@ function cleanUrl(url) {
 function generateJson() {
     return new Promise((resolve, reject) => {
         let protocol = $('#protocol').val();
+        let stream = $('#stream').val();
         //let network = $('#network').val();
         let uuid = $('#uuid').val();
         let sni = cleanUrl($('#sni').val());
         let port = $('#port').val();
-        let path = setPath($('#path').val());
+        let path = $('#path').val();
         let tls = $('#tls').is(':checked');
         let mux = $('#mux').is(':checked');
+        let insecure = $('#insecure').is(':checked');
         let concurrency = $('#concurrency').val();
         let packets = $('#packets').val();
         let length = $('#length').val();
         let interval = $('#interval').val();
         //let early = $('#early').is(':checked');
+        let grpcMode = $('#grpcMode').val();
+        let serviceName = $('#serviceName').val();
         let cleanIp = $('#cleanIp').val();
         if ( cleanIp === '' ) {
             cleanIp = 'zula.ir';
         }
+        let direct = $('#direct').is(':checked');
         if ( uuid === '' || sni === ''|| port === '' ) {
             alert('فرم را تکمیل نمایید.');
             return false;
         }
-        fetch('fragment.json?v1.1')
+        fetch('fragment.json?v1.6')
             .then(response => response.json())
             .then(data => {
                 data.outbounds[0].protocol = protocol;
                 if ( mux ) {
                     data.outbounds[0].mux.enabled = true;
                     data.outbounds[0].mux.concurrency = Number(concurrency);
+                    data.outbounds[0].mux.xudpConcurrency = Number(concurrency);
                 }
                 else {
-                    data.outbounds[0].mux.enabled = false;
-                    data.outbounds[0].mux.concurrency = Number(-1);
+                    delete data.outbounds[0].mux;
                 }
-                data.outbounds[0].streamSettings.network = "ws";
+                data.outbounds[0].streamSettings.network = stream;
+                if ( stream === "grpc" ) {
+                    delete data.outbounds[0].streamSettings.wsSettings;
+                    data.outbounds[0].streamSettings.grpcSettings.multiMode = (grpcMode === 'multi' ? true : false);
+                    data.outbounds[0].streamSettings.grpcSettings.serviceName = serviceName;
+                }
+                else {
+                    delete data.outbounds[0].streamSettings.grpcSettings;
+                    data.outbounds[0].streamSettings.wsSettings.headers.Host = sni;
+                    data.outbounds[0].streamSettings.wsSettings.path = path;
+                }
+                data.outbounds[0].streamSettings.tlsSettings.allowInsecure = (insecure ? true : false);
                 data.outbounds[0].streamSettings.tlsSettings.serverName = sni;
-                data.outbounds[0].streamSettings.wsSettings.headers.Host = sni;
-                data.outbounds[0].streamSettings.wsSettings.path = path;
                 data.outbounds[0].settings.vnext[0].port = Number(port);
                 data.outbounds[0].settings.vnext[0].users[0].id = uuid;
                 data.outbounds[0].settings.vnext[0].address = cleanIp;
@@ -298,7 +377,31 @@ function generateJson() {
                     delete data.outbounds[0].streamSettings.tlsSettings;
                     delete data.outbounds[0].streamSettings.security;
                 }
-                resolve(data);
+                if ( ! direct ) {
+                    /*delete data.routing.rules[1];
+                    delete data.routing.rules[2];*/
+                    data.routing.rules = data.routing.rules.filter((rule, index) => index !== 1 && index !== 2);
+                }
+                resolve([
+                    data,
+                    'protocol*IRCF*'+protocol+
+                    '&network*IRCF*'+stream+
+                    '&uuid*IRCF*'+uuid+
+                    '&sni*IRCF*'+sni+
+                    '&port*IRCF*'+port+
+                    '&path*IRCF*'+path+
+                    '&tls*IRCF*'+tls+
+                    '&insecure*IRCF*'+insecure+
+                    '&mux*IRCF*'+mux+
+                    '&concurrency*IRCF*'+concurrency+
+                    '&packets*IRCF*'+packets+
+                    '&length*IRCF*'+length+
+                    '&interval*IRCF*'+interval+
+                    '&grpcMode*IRCF*'+grpcMode+
+                    '&serviceName*IRCF*'+serviceName+
+                    '&cleanIp*IRCF*'+cleanIp+
+                    '&directRules*IRCF*'+direct
+                ]);
             })
             .catch(error => {
                 reject(error);
@@ -310,7 +413,7 @@ $(document).on('click', '#getFile', function(e) {
     e.preventDefault();
     generateJson()
         .then(data => {
-            const jsonData = JSON.stringify(data, null, 2);
+            const jsonData = JSON.stringify(data[0], null, 2);
             const blob = new Blob([jsonData], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -324,23 +427,73 @@ $(document).on('click', '#getFile', function(e) {
         })
         .catch(error => {
             // Handle errors here
+            console.log(error)
+        });
+});
+
+$(document).on('click', '#copyCode', function (e) {
+    e.preventDefault();
+    generateJson()
+        .then(data => {
+            data = JSON.stringify(data[0], null, 2);
+            document.getElementById("jsonOutput").value = data;
+            const input = document.getElementById('jsonOutput');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            alert('کد در کلیپ‌بورد کپی شد.');
+        })
+        .catch(error => {
             console.error(error);
         });
 });
 
-$(document).on('click', '#copyCode', function(e) {
+let vercelUrl = 'https://ircf.vercel.app/json/prm/';
+
+$(document).on('click', '#jsonUrl', function (e) {
     e.preventDefault();
     generateJson()
         .then(data => {
-            data = JSON.stringify(data, null, 2)
-            navigator.clipboard.writeText(data).then(() => {
-                alert('کد در کلیپ‌بورد کپی شد.');
-            }).catch(() => {
-                //alert('مشکلی پیش آمده است!');
-            });
+            window.open(vercelUrl+btoa(data[1]));
         })
         .catch(error => {
-            // Handle errors here
             console.error(error);
         });
+});
+
+$(document).on('click', '#qrGen', function (e) {
+    e.preventDefault();
+    generateJson()
+        .then(data => {
+            $('#qrcode img').attr('src', "https://quickchart.io/qr?size=300x200&light=ffffff&text="+encodeURIComponent(vercelUrl+btoa(data[1])))
+            $('#qrcode input').val(vercelUrl+btoa(data[1]))
+            $("#qrModal").modal('show');
+        })
+        .catch(error => {
+            console.error(error);
+        });
+});
+
+$(document).on('click', '#copyUrl', function (e) {
+    e.preventDefault();
+    generateJson()
+        .then(data => {
+            document.getElementById("jsonOutput").value = vercelUrl+btoa(data[1]);
+            const input = document.getElementById('jsonOutput');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            $("#qrModal").modal('hide');
+            alert('آدرس در کلیپ‌بورد کپی شد.');
+        })
+        .catch(error => {
+            console.error(error);
+        });
+});
+
+window.addEventListener('load', function() {
+    $('[data-toggle="tooltip"]').tooltip({
+        placement: "top",
+        trigger: "hover",
+    })
 });

@@ -4,9 +4,12 @@
         <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
         <link href="./assets/css/bootstrap-rtl.min.css" rel="stylesheet" />
         <link href="./assets/css/vazir.css" rel="stylesheet" />
-        <link href="./assets/css/style.css?v1.6" rel="stylesheet" />
-        <title> ابزار فرگمنت</title>
-               <meta name="robots" content="index,follow,noodp" />
+        <link href="./assets/css/style.css?v1.10" rel="stylesheet" />
+        <link href="./assets/css/lang.css?v1.10" rel="stylesheet" />
+        <title>IRCF | ابزار فرگمنت</title>
+        <meta name="description" content="توسط ابزار فرگمنت می‌تونین دامنه‌های مرده‌تون رو مجدد زنده کنید!" />
+        <meta name="keywords" content="کلودفلر, کلادفلر, cloudflare, cf, آی پی تمیز, آی پی سالم, اسکن آی پی" />
+        <meta name="robots" content="index,follow,noodp" />
         <meta name="googlebot" content="index,follow" />
         <meta name="theme-color" content="#ff7900" />
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
@@ -22,7 +25,7 @@
                 <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 col-centered">
                     <a href=".">
                         <img src="./assets/img/cflogo.png?v1.1" alt="logo" />
-                        <h1>تبدیل کانفیگ!</h1>
+                        <h1>اینترنت برای همه؛ یا هیچ‌کس!</h1>
                     </a>
                 </div>
             </div>
@@ -32,91 +35,139 @@
             <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12 col-centered">
                 <ul class="nav nav-tabs">
                     <li>
-                        <a href="https://fix7.shop">معرفی</a>
+                        <a href="https://ircf.space">معرفی</a>
                     </li>
-                                                          
+                    <li class="dropdown active">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">فرگمنت <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="https://t.me/ircfspace/345" target="_blank">درباره فرگمنت</a></li>
+                            <li class="active"><a href="./index.html">ابزار فرگمنت</a></li>
+                            <li class="divider"></li>
+                            <li><a href="https://shorturl.at/cfpE8" target="_blank">نحوه استفاده</a></li>
+                            <li><a href="https://youtube.com/watch?v=LXJIcLa1v6Y" target="_blank">آموزش ویدئویی</a></li>
+                            <li><a href="https://youtube.com/watch?v=4L7zajnLtOs&t=339s" target="_blank">استفاده با ساب</a></li>
+                            <li class="divider"></li>
+                            <li><a href="https://t.me/ircfspace/356" target="_blank">اهمیت IP تمیز</a></li>
+                            <li><a href="https://t.me/ircfspace/185" target="_blank">کاربرد EarlyData</a></li>
+                            <li><a href="https://t.me/ircfspace/292" target="_blank">Mux چیست؟</a></li>
+                            <li class="divider"></li>
+                            <li><a href="https://raw.githubusercontent.com/GFW-knocker/gfw_resist_HTTPS_proxy/main/ServerLess_TLSFrag_Xray_Config.json" target="_blank">فرگمنت یوتیوب</a></li>
+                            <li><a href="https://ircfspace.github.io/tconfig" target="_blank">کانفیگ رایگان</a></li>
+                        </ul>
+                    </li>
+                    <li class="pull-left">
+                        <a href="https://ircf.space/contacts.php">تماس‌باما</a>
+                    </li>
                 </ul>
                 <div class="clearfix"></div>
-                
-                <p>یک کانفیگ VLESS/VMESS از نوع webSocket وارد کنین:</p>
+                <ul class="flags" id="flags">
+                    <li><a href="index.html" data-lang="cn">
+                        <img src="assets/img/flag/cn.png" alt="CN / چینی" />
+                    </a></li>
+                    <li><a href="index.html" data-lang="ru">
+                        <img src="assets/img/flag/ru.png" alt="RU / روسی" />
+                    </a></li>
+                    <li><a href="index.html" data-lang="en">
+                        <img src="assets/img/flag/gb.png" alt="EN / انگلیسی" />
+                    </a></li>
+                    <li><a href="index.html" data-lang="fa">
+                        <img src="assets/img/flag/ir.png" alt="FA / پارسی" />
+                    </a></li>
+                </ul>
+                <div class="clearfix"></div>
+                <div class="alert alert-info" id="defAlert">
+                    <p data-i18n="welcome_message"></p>
+                </div>
+                <p data-i18n="config_input"></p>
                 <div class="input-group">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" id="checkConf">بررسی</button>
+                        <button class="btn btn-default" type="button" id="checkConf" data-i18n="config_input_submit"></button>
                     </span>
-                    <input class="form-control dirLeft" placeholder="Your Config" value="vless://bca6c7f8-2505-416e-a9f7-420cd2994683@zula.ir:443?hiddify=1&sni=p2.ipcl.top&type=ws&alpn=http/1.1&path=/NcnELaMKKFprtS7GqudEw78d&host=p2.ipcl.top&encryption=none&fp=chrome&headerType=None&security=tls#Fra%20Fix" id="defConfig" />
+                    <input class="form-control dirLeft" data-i18n-label="config_input_label" value="" id="defConfig" />
                 </div>
-                <div class="orClass"><small>یا</small></div>
-                <p>یا تنظیمات زیر رو به‌صورت دستی تکمیل کنین:</p>
+                <div class="orClass"><small data-i18n="config_form_ortext"></small></div>
+                <p data-i18n="config_form_label"></p>
                 <div class="xsWidth withSmallCenter">
                     <select class="form-control dirLeft" id="protocol">
-                        <option value="vless">VLESS (WS)</option>
-                        <option value="vmess">VMESS (WS)</option>
+                        <option value="vless">VLESS</option>
+                        <option value="vmess">VMESS</option>
                     </select>
-                    <input class="form-control dirLeft" placeholder="UUID" id="uuid" />
-                    <input class="form-control dirLeft" placeholder="PORT" id="port" type="number" min="0" />
+                    <select class="form-control dirLeft" id="stream">
+                        <option value="ws">WS</option>
+                        <option value="grpc">GRPC</option>
+                    </select>
+                    <input class="form-control dirLeft" data-i18n-label="config_form_uuid" id="uuid" />
+                    <input class="form-control dirLeft" data-i18n-label="config_form_port" id="port" type="number" min="0" />
                 </div>
                 <div class="xsWidth">
-                   
-                    <input class="form-control dirLeft" placeholder="CleanIP (default: zula.ir)" id="cleanIp" />
-                    <input class="form-control dirLeft" placeholder="SNI" id="sni" />
-                    <input class="form-control dirLeft" placeholder="PATH" id="path" />
+                    <input class="form-control dirLeft" data-i18n-label="config_form_cleanip" id="cleanIp" data-toggle="tooltip" data-i18n-title="config_form_cleanip_tooltip" />
+                    <input class="form-control dirLeft" data-i18n-label="config_form_sni" id="sni" />
+                    <input class="form-control dirLeft" data-i18n-label="config_form_path" id="path" />
+                </div>
+                <div class="minWidth none" id="grpcOnly">
+                    <select class="form-control dirLeft" id="grpcMode">
+                        <option value="gun">gunMode</option>
+                        <option value="multi">multiMode</option>
+                    </select>
+                    <input class="form-control dirLeft" data-i18n-label="config_form_serviceName" id="serviceName" />
                 </div>
                 <div class="clearfix"></div>
-                <label class="switch">
+                <label class="switch" data-toggle="tooltip" data-i18n-title="config_switch_tls_tooltip">
                     <input type="checkbox" id="tls" checked />
                     <span class="slider round"></span>
-                    <strong>TLS</strong>
+                    <strong data-i18n="config_switch_tls"></strong>
                 </label>
-                <label class="switch">
+                <label class="switch" data-toggle="tooltip" data-i18n-title="config_switch_insecure_tooltip">
+                    <input type="checkbox" id="insecure" />
+                    <span class="slider round"></span>
+                    <strong id="secureLabel" data-i18n="config_switch_insecure"></strong>
+                </label>
+                <label class="switch" data-toggle="tooltip" data-i18n-title="config_switch_earlydata_tooltip">
                     <input type="checkbox" id="early" />
                     <span class="slider round"></span>
-                    <strong>Early Data</strong>
+                    <strong data-i18n="config_switch_earlydata"></strong>
                 </label>
-                <label class="switch">
+                <label class="switch" data-toggle="tooltip" data-i18n-title="config_switch_mux_tooltip">
                     <input type="checkbox" id="mux" />
                     <span class="slider round"></span>
-                    <strong>Mux</strong>
+                    <strong data-i18n="config_switch_mux"></strong>
                 </label>
-                <div class="orClass"><small>مقادیر فرگمنت</small></div>
+                <label class="switch" data-toggle="tooltip" data-i18n-title="config_switch_direct_rule_tooltip">
+                    <input type="checkbox" id="direct" />
+                    <span class="slider round"></span>
+                    <strong data-i18n="config_switch_direct_rule"></strong>
+                </label>
+                <div class="orClass"><small data-i18n="config_fragment_label"></small></div>
                 <div class="xsWidth">
-                    <input class="form-control dirLeft" placeholder="Packets" id="packets" value="tlshello" />
-                    <input class="form-control dirLeft" placeholder="Length" id="length" value="10-20" />
-                    <input class="form-control dirLeft" placeholder="Interval" id="interval" value="10-20" />
+                    <input class="form-control dirLeft" data-i18n-label="config_fragment_packets" data-toggle="tooltip" data-i18n-title="config_fragment_packets" id="packets" value="tlshello" />
+                    <input class="form-control dirLeft" data-i18n-label="config_fragment_length" data-toggle="tooltip" data-i18n-title="config_fragment_length" id="length" value="10-20" />
+                    <input class="form-control dirLeft" data-i18n-label="config_fragment_interval" data-toggle="tooltip" data-i18n-title="config_fragment_interval" id="interval" value="10-20" />
                 </div>
                 <div class="muxForm none" id="muxForm">
-                    <div class="orClass"><small>مقدار Concurrency</small></div>
-                    <input class="form-control dirLeft" placeholder="Concurrency" id="concurrency" value="8" />
-                </div>
-                <div class="input-group fetchIps">
-                    <button class="btn btn-info" type="submit" id="getFile">
-                        ایجاد فایل JSON
-                    </button>
-                    <button class="btn btn-default active" id="copyCode">
-                        کپی کد
-                    </button>
+                    <div class="orClass"><small data-i18n="config_mux_label"></small></div>
+                    <input class="form-control dirLeft" data-i18n-label="config_mux_concurrency" id="concurrency" value="8" data-toggle="tooltip" data-i18n-title="config_mux_concurrency_tooltip" />
                 </div>
                 <div class="clearfix"></div>
-                <div id="tableResults" class="hidden">
-                    <div class="clearfix"></div>
-                    <hr>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>آی‌پی</th>
-                                <th>عملیات</th>
-                            </tr>
-                            </thead>
-                            <tbody id="result"></tbody>
-                        </table>
-                    </div>
-                    <div id="list">
-                        <div class="clearfix"></div>
-                        <hr>
-                        <textarea class="form-control dirLeft"></textarea>
+                <div class="input-group fetchIps">
+                    <button class="btn btn-info" type="submit" id="getFile" data-i18n="config_form_submit"></button>
+                    <div class="input-group-btn">
+                        <div class="btn-group">
+                            <div class="btn-group scanOpt">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="newScan">
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="hidden"><a href="javascript:;" id="jsonUrl" data-i18n="config_form_jsonurl"></a></li>
+                                    <li><a href="javascript:;" id="qrGen" data-i18n="config_form_qrcode"></a></li>
+                                    <li><a href="javascript:;" id="copyCode" data-i18n="config_form_copy"></a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="clearfix"></div>
+                <textarea id="jsonOutput" class="jsonOutput"></textarea>
+                <div class="clearfix"></div>
                 <br>
                 <div id="donate" class="modal fade" role="dialog">
                     <div class="modal-dialog modal-sm">
@@ -127,12 +178,33 @@
                             <div class="modal-body modalBodyOverflow">
                                 <p>درصورت تمایل برای دونیت می‌تونین از یکی‌از روش‌های زیر استفاده کنین:</p>
                                 <div class="dirLeft">
-                                    
-                                    
+                                    <small>Buy me a coffee:</small>
+                                    <br>
+                                    <a href="https://buymeacoffee.com/ircf" class="btn btn-default btn-block" target="_blank">buymeacoffee.com/ircf</a>
+                                    <br>
+                                    <small>Tether (TRC20):</small>
+                                    <br>
+                                    <input type="text" class="form-control text-center" value="TF5cT8fQMuajHGGH141U9JbTygFojkrFdB" />
+                                    <br>
+                                    <small>Bitcoin:</small>
+                                    <br>
+                                    <input type="text" class="form-control text-center" value="bc1qyhx0qn9722vdvlz4s64g4sxq3yne0f5ryz3jyd" />
+                                    <br>
                                     <small>Tron (TRX):</small>
                                     <br>
-                                    <input type="text" class="form-control text-center" value="TKpFB8JGsFgQQL6kMVX7UWedMnXCwcKhLH" />
-                                                                      
+                                    <input type="text" class="form-control text-center" value="TF5cT8fQMuajHGGH141U9JbTygFojkrFdB" />
+                                    <br>
+                                    <small>Ethereum:</small>
+                                    <br>
+                                    <input type="text" class="form-control text-center" value="0x2A72777912A15A6387a1116f9bDDFe1Cb9474BF1" />
+									<br>
+                                    <small>Litecoin:</small>
+                                    <br>
+                                    <input type="text" class="form-control text-center" value="ltc1q5d4u366xef336pjvccn7akn02upavmk45fhtdw" />
+                                    <br>
+									<small>TON (ERC20):</small>
+									<br>
+									<input type="text" class="form-control text-center" value="0x2A72777912A15A6387a1116f9bDDFe1Cb9474BF1" />
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -141,19 +213,39 @@
                         </div>
                     </div>
                 </div>
+                <div id="qrModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title dirLeft">QRCode</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="qrcode" id="qrcode">
+                                    <img src="" alt="qrcode" />
+                                    <input class="form-control dirLeft" value="" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" id="copyUrl" data-i18n="config_form_copyurl"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <footer>
                     <p class="text-center">
                         © توسط
-                        <a href="https://github.com/mostafacpr/fragment" target="_blank">FixGsm</a>
+                        <a href="https://github.com/ircfspace/fragment" target="_blank">IRCF</a>
                         با کمک
-                        IRCF
+                        GFW-knocker
                     </p>
-                    <!--<div class="text-center">
+                    <div class="text-center hidden">
                         <a href="#" class="btn btn-link btn-normal btn-lg btn-outline donateLink" data-toggle="modal" data-target="#donate">☕</a>
-                    </div>-->
+                    </div>
                     <script src="./assets/js/jquery.min.js"></script>
                     <script src="./assets/js/bootstrap.min.js"></script>
-                    <script src="./assets/js/script.js?v1.6"></script>
+                    <script src="./assets/js/lang.js?v1.3.2"></script>
+                    <script src="./assets/js/script.js?v1.10.2"></script>
                 </footer>
             </div>
         </div>

@@ -80,26 +80,34 @@
           "show": false
         },
         "wsSettings": {
-          "path": "###PATH###/?ed=2048",
+          "path": "###PATH###?ed=2048",
           "headers": {
             "Host": "###SNI###"
           }
         },
+        "grpcSettings": {
+          "multiMode": false,
+          "serviceName": ""
+        },
         "sockopt": {
           "dialerProxy": "fragment",
           "tcpKeepAliveIdle": 100,
-          "mark": 255
+          "mark": 255,
+          "tcpNoDelay": true
         }
       },
       "mux": {
         "enabled": false,
-        "concurrency": -1
+        "concurrency": -1,
+        "xudpConcurrency": -1,
+        "xudpProxyUDP443": "reject"
       }
     },
     {
       "tag": "fragment",
       "protocol": "freedom",
       "settings": {
+        "domainStrategy": "AsIs",
         "fragment": {
           "packets": "tlshello",
           "length": "10-20",
@@ -108,9 +116,8 @@
       },
       "streamSettings": {
         "sockopt": {
-          "TcpNoDelay": true,
-          "tcpKeepAliveIdle": 100,
-          "mark": 255
+          "tcpNoDelay": true,
+          "tcpKeepAliveIdle": 100
         }
       }
     },
